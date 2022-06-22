@@ -1,6 +1,6 @@
 USE [Assignment]
 GO
-/****** Object:  Table [dbo].[Account]    Script Date: 6/10/2022 8:45:23 PM ******/
+/****** Object:  Table [dbo].[Account]    Script Date: 6/22/2022 1:00:05 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -15,7 +15,7 @@ CREATE TABLE [dbo].[Account](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Attendance]    Script Date: 6/10/2022 8:45:24 PM ******/
+/****** Object:  Table [dbo].[Attendance]    Script Date: 6/22/2022 1:00:05 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -31,7 +31,7 @@ CREATE TABLE [dbo].[Attendance](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Class]    Script Date: 6/10/2022 8:45:24 PM ******/
+/****** Object:  Table [dbo].[Class]    Script Date: 6/22/2022 1:00:05 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -45,7 +45,7 @@ CREATE TABLE [dbo].[Class](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[ClassMember]    Script Date: 6/10/2022 8:45:24 PM ******/
+/****** Object:  Table [dbo].[ClassMember]    Script Date: 6/22/2022 1:00:05 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -60,7 +60,22 @@ CREATE TABLE [dbo].[ClassMember](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Schedule]    Script Date: 6/10/2022 8:45:24 PM ******/
+/****** Object:  Table [dbo].[Instructor]    Script Date: 6/22/2022 1:00:05 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Instructor](
+	[InstructorID] [int] IDENTITY(1,1) NOT NULL,
+	[IName] [nvarchar](150) NOT NULL,
+	[Username] [nvarchar](150) NOT NULL,
+ CONSTRAINT [PK_Instructor] PRIMARY KEY CLUSTERED 
+(
+	[InstructorID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Schedule]    Script Date: 6/22/2022 1:00:05 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -77,7 +92,7 @@ CREATE TABLE [dbo].[Schedule](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Slot]    Script Date: 6/10/2022 8:45:24 PM ******/
+/****** Object:  Table [dbo].[Slot]    Script Date: 6/22/2022 1:00:05 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -92,7 +107,7 @@ CREATE TABLE [dbo].[Slot](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Student]    Script Date: 6/10/2022 8:45:24 PM ******/
+/****** Object:  Table [dbo].[Student]    Script Date: 6/22/2022 1:00:05 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -107,7 +122,7 @@ CREATE TABLE [dbo].[Student](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Subject]    Script Date: 6/10/2022 8:45:24 PM ******/
+/****** Object:  Table [dbo].[Subject]    Script Date: 6/22/2022 1:00:05 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -118,6 +133,21 @@ CREATE TABLE [dbo].[Subject](
  CONSTRAINT [PK_Subject] PRIMARY KEY CLUSTERED 
 (
 	[SubjectID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Supervise]    Script Date: 6/22/2022 1:00:05 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Supervise](
+	[InstructorID] [int] NOT NULL,
+	[ID] [int] NOT NULL,
+ CONSTRAINT [PK_Supervise] PRIMARY KEY CLUSTERED 
+(
+	[InstructorID] ASC,
+	[ID] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
@@ -485,6 +515,20 @@ INSERT [dbo].[ClassMember] ([StudentCode], [ClassID]) VALUES (N'HE160698', 1)
 GO
 INSERT [dbo].[ClassMember] ([StudentCode], [ClassID]) VALUES (N'HE163011', 1)
 GO
+SET IDENTITY_INSERT [dbo].[Instructor] ON 
+GO
+INSERT [dbo].[Instructor] ([InstructorID], [IName], [Username]) VALUES (1, N'Ngô Tùng Sơn', N'sont5')
+GO
+INSERT [dbo].[Instructor] ([InstructorID], [IName], [Username]) VALUES (2, N'Nguyễn Tất Trung', N'trungnt')
+GO
+INSERT [dbo].[Instructor] ([InstructorID], [IName], [Username]) VALUES (3, N'Phạm Ngọc Thọ', N'ThoPN3')
+GO
+INSERT [dbo].[Instructor] ([InstructorID], [IName], [Username]) VALUES (4, N'Đào Anh Hiển', N'Hienda')
+GO
+INSERT [dbo].[Instructor] ([InstructorID], [IName], [Username]) VALUES (5, N'Đào Thị Thanh', N'ThanhDT59')
+GO
+SET IDENTITY_INSERT [dbo].[Instructor] OFF
+GO
 INSERT [dbo].[Schedule] ([ID], [SubjectID], [ClassID], [SlotID], [Date]) VALUES (1, 2, 2, 1, CAST(N'2022-06-11' AS Date))
 GO
 INSERT [dbo].[Schedule] ([ID], [SubjectID], [ClassID], [SlotID], [Date]) VALUES (2, 3, 1, 2, CAST(N'2022-06-12' AS Date))
@@ -701,4 +745,14 @@ ALTER TABLE [dbo].[Schedule]  WITH CHECK ADD  CONSTRAINT [FK_Schedule_Subject] F
 REFERENCES [dbo].[Subject] ([SubjectID])
 GO
 ALTER TABLE [dbo].[Schedule] CHECK CONSTRAINT [FK_Schedule_Subject]
+GO
+ALTER TABLE [dbo].[Supervise]  WITH CHECK ADD  CONSTRAINT [FK_Supervise_Instructor] FOREIGN KEY([InstructorID])
+REFERENCES [dbo].[Instructor] ([InstructorID])
+GO
+ALTER TABLE [dbo].[Supervise] CHECK CONSTRAINT [FK_Supervise_Instructor]
+GO
+ALTER TABLE [dbo].[Supervise]  WITH CHECK ADD  CONSTRAINT [FK_Supervise_Schedule] FOREIGN KEY([ID])
+REFERENCES [dbo].[Schedule] ([ID])
+GO
+ALTER TABLE [dbo].[Supervise] CHECK CONSTRAINT [FK_Supervise_Schedule]
 GO
