@@ -11,29 +11,56 @@ import java.sql.Date;
  * @author lyxin
  */
 public class Schedule {
-    private int schuduleid;
+    private int scheduleid;
     private Subject subject;
     private Class classname;
     private Slot slot;
     private Date date;
 
-    public void setScheduleID(int aInt) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public int getScheduleid() {
+        return scheduleid;
+    }
+
+    public void setScheduleid(int schuduleid) {
+        this.scheduleid = schuduleid;
+    }
+
+    public Subject getSubject() {
+        return subject;
     }
 
     public void setSubject(Subject subject) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        this.subject = subject;
     }
 
-    public void setclassName(Class classroom) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public Class getClassname() {
+        return classname;
+    }
+
+    public void setClassname(Class classname) {
+        this.classname = classname;
+    }
+
+    public Slot getSlot() {
+        return slot;
     }
 
     public void setSlot(Slot slot) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        this.slot = slot;
+    }
+
+    public Date getDate() {
+        return date;
     }
 
     public void setDate(Date date) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        this.date = date;
     }
+
+    @Override
+    public String toString() {
+        return "Schedule{" + "scheduleid=" + scheduleid + ", subject=" + subject + ", classname=" + classname + ", slot=" + slot + ", date=" + date + '}';
+    }
+
+    
 }

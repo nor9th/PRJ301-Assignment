@@ -5,6 +5,7 @@
 
 package controller;
 
+import dal.LectureDBContext;
 import dal.ScheduleDBContext;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -12,6 +13,8 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
+import model.Instructor;
 import model.Schedule;
 
 /**
@@ -55,10 +58,10 @@ public class ScheduleController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        ScheduleDBContext sdb = new ScheduleDBContext();
-        Schedule schedule = sdb.GetschedulebyId(0);
-        request.setAttribute("schedule", schedule);
-        request.getRequestDispatcher("").forward(request, response);
+        LectureDBContext ldb = new LectureDBContext();
+        ArrayList<Instructor> ins = ldb.list();
+        request.setAttribute("ins", ins);
+        request.getRequestDispatcher("Schedule.jsp").forward(request, response);
     } 
 
     /** 
@@ -71,7 +74,16 @@ public class ScheduleController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        processRequest(request, response);
+        int id = Integer.parseInt(request.getParameter("id"));
+        EmpDBContext dbEmp = new EmpDBContext();
+        ArrayList<Emp> emps = dbEmp.search(did);
+        request.setAttribute("emps", emps);
+        DeptDBContext dbDept = new DeptDBContext();
+        ArrayList<Dept> depts = dbDept.list();
+        request.setAttribute("depts", depts);
+        request.setAttribute("id", id);
+        request.getRequestDispatcher("Schedule.jsp").forward(request, response);
+        
     }
 
     /** 
