@@ -21,7 +21,7 @@ import model.Subject;
  *
  * @author lyxin
  */
-public class ScheduleDBContext extends DBContext<Schedule> {
+public class ScheduleDBContext extends DBContext {
 
     public ArrayList<Schedule> GetschedulebyDate(String date) {
         ArrayList<Schedule> sche = new ArrayList<>();

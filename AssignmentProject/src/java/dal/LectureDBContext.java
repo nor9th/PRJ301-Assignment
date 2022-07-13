@@ -18,7 +18,7 @@ import model.Schedule;
  *
  * @author lyxin
  */
-public class LectureDBContext extends DBContext<Instructor>{
+public class LectureDBContext extends DBContext {
     public ArrayList<Instructor> list() {
         ArrayList<Instructor> ins = new ArrayList<>();
         try {

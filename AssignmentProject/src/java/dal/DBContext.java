@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public abstract class DBContext<T> {
+public abstract class DBContext {
     protected Connection connection;
     public DBContext()
     {
