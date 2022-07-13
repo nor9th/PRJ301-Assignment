@@ -13,6 +13,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import model.Schedule;
 import model.Class;
+import model.Instructor;
 import model.Slot;
 import model.Subject;
 
@@ -57,18 +58,25 @@ public class ScheduleDBContext extends DBContext<Schedule> {
         return sche;
     }
 
-    public ArrayList<Schedule> listSchedule() {
+    public ArrayList<Schedule> listSchedule(int InstructorID) {
         ArrayList<Schedule> schedules = new ArrayList<>();
         try {
-            String sql = "SELECT s.ID, sub.SubjectName, c.ClassName, sl.SlotName, sl.[Time]\n"
-                    + "FROM ((Schedule s JOIN [Subject] sub ON s.SubjectID = sub.SubjectID) \n"
-                    + "JOIN Class c ON s.ClassID = c.ClassID ) JOIN Slot sl ON s.SlotID = sl.SlotID\n";
+            String sql = "SELECT s.ID, c.ClassName, sj.SubjectName, slot.SlotName, slot.Time, s.Date, i.Username\n"
+                    + "FROM Supervise sup \n"
+                    + "INNER JOIN Schedule s ON sup.ID = s.ID\n"
+                    + "INNER JOIN Instructor i ON i.InstructorID = sup.InstructorID \n"
+                    + "INNER JOIN Subject sj ON s.SubjectID = sj.SubjectID\n"
+                    + "INNER JOIN Class c ON s.ClassID = c.ClassID\n"
+                    + "INNER JOIN Slot slot ON slot.SlotID = s.SlotID\n"
+                    + "WHERE i.InstructorID = ?";
             PreparedStatement stm = connection.prepareStatement(sql);
+            stm.setInt(1, InstructorID);
             ResultSet rs = stm.executeQuery();
             while (rs.next()) {
                 Schedule s = new Schedule();
                 s.setScheduleid(rs.getInt("ID"));
-
+                s.setDate(rs.getDate("date"));
+                
                 Subject sub = new Subject();
                 sub.setSubjectname(rs.getString("subjectname"));
                 s.setSubject(sub);
@@ -81,6 +89,10 @@ public class ScheduleDBContext extends DBContext<Schedule> {
                 slot.setSlotname("SlotName");
                 slot.setTime(rs.getString("time"));
                 s.setSlot(slot);
+
+                Instructor i = new Instructor();
+                i.setUsername(rs.getString("Username"));
+                s.setIntructor(i);
                 
                 schedules.add(s);
             }
@@ -92,10 +104,11 @@ public class ScheduleDBContext extends DBContext<Schedule> {
 
     public static void main(String[] args) {
         ScheduleDBContext db = new ScheduleDBContext();
-        ArrayList<Schedule> sche = db.GetschedulebyDate("2022-06-11");
-        for (Schedule schedule : sche) {
+        ArrayList<Schedule> schedules = db.listSchedule(1);
+        for (Schedule schedule : schedules) {
             System.out.println(schedule);
         }
+        
 
     }
 }

@@ -33,18 +33,7 @@ public class ScheduleController extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet ScheduleController</title>");  
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet ScheduleController at " + request.getContextPath () + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
-        }
+        
     } 
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -74,14 +63,17 @@ public class ScheduleController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        int id = Integer.parseInt(request.getParameter("id"));
-        EmpDBContext dbEmp = new EmpDBContext();
-        ArrayList<Emp> emps = dbEmp.search(did);
-        request.setAttribute("emps", emps);
-        DeptDBContext dbDept = new DeptDBContext();
-        ArrayList<Dept> depts = dbDept.list();
-        request.setAttribute("depts", depts);
-        request.setAttribute("id", id);
+        
+        int InstructorID = Integer.parseInt(request.getParameter("InstructorID"));
+        
+        ScheduleDBContext sdb = new ScheduleDBContext();
+        ArrayList<Schedule> schedules = sdb.listSchedule(InstructorID);
+        request.setAttribute("schedules", schedules);
+        
+        LectureDBContext ldb = new LectureDBContext();
+        ArrayList<Instructor> ins = ldb.list();
+        request.setAttribute("ins", ins);
+        request.setAttribute("InstructorID", InstructorID);
         request.getRequestDispatcher("Schedule.jsp").forward(request, response);
         
     }

@@ -38,4 +38,9 @@ public class Instructor {
         this.Username = Username;
     }
 
+    @Override
+    public String toString() {
+        return "Instructor{" + "InstructorID=" + InstructorID + ", IName=" + IName + ", Username=" + Username + '}';
+    }
+
 }

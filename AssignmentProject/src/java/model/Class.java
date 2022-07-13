@@ -27,5 +27,10 @@ public class Class {
     public void setClassname(String classname) {
         this.classname = classname;
     }
+
+    @Override
+    public String toString() {
+        return "Class{" + "classid=" + classid + ", classname=" + classname + '}';
+    }
     
 }

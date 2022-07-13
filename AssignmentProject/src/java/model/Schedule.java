@@ -16,6 +16,7 @@ public class Schedule {
     private Class classname;
     private Slot slot;
     private Date date;
+    private Instructor intructor;
 
     public int getScheduleid() {
         return scheduleid;
@@ -57,10 +58,19 @@ public class Schedule {
         this.date = date;
     }
 
+    public Instructor getIntructor() {
+        return intructor;
+    }
+
+    public void setIntructor(Instructor intructor) {
+        this.intructor = intructor;
+    }
+
     @Override
     public String toString() {
-        return "Schedule{" + "scheduleid=" + scheduleid + ", subject=" + subject + ", classname=" + classname + ", slot=" + slot + ", date=" + date + '}';
+        return "Schedule{" + "scheduleid=" + scheduleid + ", subject=" + subject + ", classname=" + classname + ", slot=" + slot + ", date=" + date + ", intructor=" + intructor + '}';
     }
+
 
     
 }

@@ -68,13 +68,14 @@
                     <div>
                         <div style="margin-bottom: 10px ;text-align: center">
                             <form action="schedule" method="POST">
-                                Lecture<select name="id"> 
+                                Lecture<select name="InstructorID"> 
                                     <c:forEach items="${requestScope.ins}" var="i">
                                         <option 
                                             <c:if test="${i.InstructorID eq requestScope.InstructorID}">
                                                 selected="selected"
                                             </c:if>
-                                            value="${i.InstructorID}">${i.IName}</option>
+                                            value="${i.InstructorID}">${i.Username}
+                                        </option>
                                     </c:forEach>
                                 </select>
                                 <input type="submit" value="View"/>
@@ -119,9 +120,9 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <c:forEach items="${requestScope.schedule}" var="s">
+                            <c:forEach items="${requestScope.schedules}" var="s">
                                 <tr>
-                                    <td>s.slot.slotname </td>
+                                    <td>s.slot </td>
                                     <td style="width: 21%"><a href="attendance.html">${s.subject.subjectname}</a><br> at DE-207 <br>(<font color="Green">attended</font>)<br><span class="label label-success">${s.slot.time}</span><br></td>
                                     <td style="width: 11%"><a href="attendance.html">PRJ301</a><br> at BE-213 <a><br>(<font color="Green">attended</font>)<br><span class="label label-success">(7:30-9:00)</span><br></a></td>
                                     <td style="width: 11%"></td>
