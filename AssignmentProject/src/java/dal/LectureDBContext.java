@@ -22,13 +22,13 @@ public class LectureDBContext extends DBContext {
     public ArrayList<Instructor> list() {
         ArrayList<Instructor> ins = new ArrayList<>();
         try {
-            String sql = "SELECT InstructorID, IName, Username FROM Instructor";
+            String sql = "SELECT * FROM Instructor";
             PreparedStatement stm = connection.prepareStatement(sql);
             ResultSet rs = stm.executeQuery();
             while (rs.next()) {
                 Instructor in = new Instructor();
                 in.setInstructorID(rs.getInt("InstructorID"));
-                in.setIName(rs.getString("IName"));
+                in.setiName(rs.getString("IName"));
                 in.setUsername(rs.getString("Username"));
                 ins.add(in);
             }

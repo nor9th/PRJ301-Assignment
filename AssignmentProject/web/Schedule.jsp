@@ -68,13 +68,13 @@
                     <div>
                         <div style="margin-bottom: 10px ;text-align: center">
                             <form action="schedule" method="POST">
-                                Lecture<select name="InstructorID"> 
-                                    <c:forEach items="${requestScope.ins}" var="i">
+                                Lecture<select name="instructorID"> 
+                                    <c:forEach items="${requestScope.ins}" var="ins">
                                         <option 
-                                            <c:if test="${i.InstructorID eq requestScope.InstructorID}">
+                                            <c:if test="${ins.instructorID eq requestScope.instructorID}">
                                                 selected="selected"
                                             </c:if>
-                                            value="${i.InstructorID}">${i.Username}
+                                            value="${ins.instructorID}">${ins.username}
                                         </option>
                                     </c:forEach>
                                 </select>
@@ -82,12 +82,12 @@
                             </form>
                         </div>
                     </div>                   
-                    <table class="table table-striped table-hover" style="margin: 0 auto; width: 90%">
+                    <table class="table table-striped table-hover" style="margin: 0 auto; width: 80%">
                         <thead>
                             <tr>
                                 <th rowspan="2">
                                     <span class="auto-style1"><strong>Year</strong></span>
-                                    <select name="ctl00$mainContent$drpYear" onchange="javascript:setTimeout('__doPostBack(\'ctl00$mainContent$drpYear\',\'\')', 0)" id="ctl00_mainContent_drpYear">
+                                    <select name="">
                                         <option value="2019">2019</option>
                                         <option value="2020">2020</option>
                                         <option value="2021">2021</option>
@@ -97,42 +97,52 @@
                                     </select>
                                     <br>
                                     Week
-                                    <select name="ctl00$mainContent$drpSelectWeek" onchange="javascript:setTimeout('__doPostBack(\'ctl00$mainContent$drpSelectWeek\',\'\')', 0)" id="ctl00_mainContent_drpSelectWeek">
-
-                                        <option value="1">09/05 To 15/05</option>
-                                        <option value="3">16/05 To 22/05</option>
-                                        <option value="3">23/05 To 29/05</option>
-                                        <option value="4">30/05 To 05/06</option>
-                                        <option value="5">06/06 To 12/06</option>
-                                        <option selected="selected" value="6">13/06 To 19/06</option>
-                                        <option value="7">20/06 To 26/06</option>
-                                        <option value="8">27/06 To 03/07</option>
-                                        <option value="9">04/07 To 10/07</option>
-                                        <option value="10">11/07 To 17/07</option>
+                                    <select name="date">
+                                        <c:forEach items="${requestScope.sches}" var="sche">
+                                            <c:if test="${requestScope.d_date eq sche.date}">
+                                                <option selected="selected" 
+                                                </c:if>
+                                                value="${sche.date}">${sche.date}</option>
+                                        </c:forEach>
                                     </select>
                                 </th>
-
-                                <th align="center">Mon</th><th align="center">Tue</th><th align="center">Wed</th><th align="center">Thu</th><th align="center">Fri</th><th align="center">Sat</th><th align="center">Sun</th>
-                            </tr>
-                            <tr>
-                                <th align="center">13/06</th><th align="center">14/06</th><th align="center">15/06</th><th align="center">16/06</th><th align="center">17/06</th><th align="center">18/06</th><th align="center">19/06</th>
-
-                            </tr>
                         </thead>
                         <tbody>
-                            <c:forEach items="${requestScope.schedules}" var="s">
-                                <tr>
-                                    <td>s.slot </td>
-                                    <td style="width: 21%"><a href="attendance.html">${s.subject.subjectname}</a><br> at DE-207 <br>(<font color="Green">attended</font>)<br><span class="label label-success">${s.slot.time}</span><br></td>
-                                    <td style="width: 11%"><a href="attendance.html">PRJ301</a><br> at BE-213 <a><br>(<font color="Green">attended</font>)<br><span class="label label-success">(7:30-9:00)</span><br></a></td>
-                                    <td style="width: 11%"></td>
-                                    <td style="width: 11%"><a href="attendance.html">PRJ301</a><br> at BE-213 <a><br>(<font color="Green">attended</font>)<br><span class="label label-success">(7:30-9:00)</span><br></a></td>
-                                    <td style="width: 11%"></td>
-                                    <td style="width: 11%"></td>
-                                    <td style="width: 11%"></td>
-                                </tr>
-                            </c:forEach>
-
+                            <c:if test="${requestScope.schedules ne null}">
+                            <table class="table table-striped table-hover" style="margin: 0 auto; width: 80%">
+                                <thead>
+                                    <tr>
+                                        <th>NO</th>
+                                        <th>SUBJECT NAME</th>						
+                                        <th>CLASS</th>
+                                        <th>SLOT</th>
+                                        <th>OPTION</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <%--<jsp:useBean id="attendenceDB" class="context.AttendanceDBContext" scope="request"></jsp:useBean>--%>
+                                    <c:forEach items="${requestScope.schedules}" var="s" varStatus="loop">
+                                        <tr>
+                                            <td>${loop.count}</td>
+                                            <td>${s.getSubject().getSubjectname()}</td>
+                                            <td>${s.getClassname().getClassname()}</td>
+                                            <td>${s.getSlot().getSlotname()}</td>
+                                            <td>
+                                                <a href="Attendance.jsp">Take Atteandance</a>
+                                                <%--<c:choose>
+                                                    <c:when test="${attendenceDB.getAttendanceByScheduleID(s.getScheduleid()).size() eq 0 }">
+                                                        <a href="list/attendence?schedule=${s.getScheduleid()}&status=check">Check Attendence</a>
+                                                    </c:when>
+                                                    <c:otherwise>
+                                                        <a href="list/attendence?schedule=${s.getScheduleid()}&status=edit">Edit Attendence</a>
+                                                    </c:otherwise>
+                                                </c:choose>--%>
+                                            </td>
+                                        </tr>
+                                    </c:forEach>
+                                </tbody>
+                            </table>
+                        </c:if>
                         </tbody>
                     </table>
                 </div>

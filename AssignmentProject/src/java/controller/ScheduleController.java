@@ -13,6 +13,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.sql.Date;
 import java.util.ArrayList;
 import model.Instructor;
 import model.Schedule;
@@ -51,6 +52,14 @@ public class ScheduleController extends HttpServlet {
         ArrayList<Instructor> ins = ldb.list();
         request.setAttribute("ins", ins);
         request.getRequestDispatcher("Schedule.jsp").forward(request, response);
+        
+//        String date = request.getParameter("date");
+//        Date d_date = Date.valueOf(date);
+//        ScheduleDBContext sdb = new ScheduleDBContext();
+//        ArrayList<Schedule> sches = sdb.GetschedulebyDate(date);
+//        request.setAttribute("d_date", d_date);
+//        request.setAttribute("sches", sches);
+//        request.getRequestDispatcher("Schedule.jsp").forward(request, response);
     } 
 
     /** 
@@ -64,18 +73,18 @@ public class ScheduleController extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
         
-        int InstructorID = Integer.parseInt(request.getParameter("InstructorID"));
+        int instructorID = Integer.parseInt(request.getParameter("instructorID"));
         
         ScheduleDBContext sdb = new ScheduleDBContext();
-        ArrayList<Schedule> schedules = sdb.listSchedule(InstructorID);
+        ArrayList<Schedule> schedules = sdb.listSchedule(instructorID);
         request.setAttribute("schedules", schedules);
         
         LectureDBContext ldb = new LectureDBContext();
         ArrayList<Instructor> ins = ldb.list();
         request.setAttribute("ins", ins);
-        request.setAttribute("InstructorID", InstructorID);
+        request.setAttribute("instructorID", instructorID);
         request.getRequestDispatcher("Schedule.jsp").forward(request, response);
-        
+     
     }
 
     /** 

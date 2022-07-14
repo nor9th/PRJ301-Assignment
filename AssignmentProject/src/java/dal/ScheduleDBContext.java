@@ -68,7 +68,7 @@ public class ScheduleDBContext extends DBContext {
                     + "INNER JOIN Subject sj ON s.SubjectID = sj.SubjectID\n"
                     + "INNER JOIN Class c ON s.ClassID = c.ClassID\n"
                     + "INNER JOIN Slot slot ON slot.SlotID = s.SlotID\n"
-                    + "WHERE i.InstructorID = ?";
+                    + "WHERE i.InstructorID = ? ";
             PreparedStatement stm = connection.prepareStatement(sql);
             stm.setInt(1, InstructorID);
             ResultSet rs = stm.executeQuery();
@@ -86,7 +86,8 @@ public class ScheduleDBContext extends DBContext {
                 s.setClassname(c);
 
                 Slot slot = new Slot();
-                slot.setSlotname("SlotName");
+                //slot.setSlotid(rs.getInt("SlotID"));
+                slot.setSlotname(rs.getString("SlotName"));
                 slot.setTime(rs.getString("time"));
                 s.setSlot(slot);
 

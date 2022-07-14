@@ -10,37 +10,39 @@ package model;
  */
 public class Instructor {
 
-    private int InstructorID;
-    private String IName;
-    private String Username;
+    private int instructorID;
+    private String iName;
+    private String username;
 
     public int getInstructorID() {
-        return InstructorID;
+        return instructorID;
     }
 
-    public void setInstructorID(int InstructorID) {
-        this.InstructorID = InstructorID;
+    public void setInstructorID(int instructorID) {
+        this.instructorID = instructorID;
     }
 
-    public String getIName() {
-        return IName;
+    public String getiName() {
+        return iName;
     }
 
-    public void setIName(String IName) {
-        this.IName = IName;
+    public void setiName(String iName) {
+        this.iName = iName;
     }
 
     public String getUsername() {
-        return Username;
+        return username;
     }
 
-    public void setUsername(String Username) {
-        this.Username = Username;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     @Override
     public String toString() {
-        return "Instructor{" + "InstructorID=" + InstructorID + ", IName=" + IName + ", Username=" + Username + '}';
+        return "Instructor{" + "instructorID=" + instructorID + ", iName=" + iName + ", username=" + username + '}';
     }
+
+   
 
 }
