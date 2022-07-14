@@ -102,14 +102,47 @@ public class ScheduleDBContext extends DBContext {
         }
         return schedules;
     }
+    
+    public Schedule getScheduleByID(int scheduleID) {
+        String sql = "select *, sub.SubjectName, c.ClassName, sl.SlotName, sl.[Time]\n"
+                + "from ((Schedule s join [Subject] sub on s.SubjectID = sub.SubjectID) join Class c on s.ClassID = c.ClassID ) join Slot sl on s.SlotID = sl.SlotID\n"
+                + "where ID = ?";
+        try {
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setInt(1, scheduleID);
+            ResultSet rs = statement.executeQuery();
+
+            while (rs.next()) {
+                Schedule x = new Schedule();
+                x.setScheduleid(rs.getInt("ID"));
+                Subject subject = new Subject();
+                subject.setSubjectid(rs.getInt("SubjectID"));
+                subject.setSubjectname(rs.getString("SubjectName"));
+                x.setSubject(subject);
+                Class classroom = new Class();
+                classroom.setClassid(rs.getInt("ClassID"));
+                classroom.setClassname(rs.getString("ClassName"));
+                x.setClassname(classroom);
+                Slot slot = new Slot();
+                slot.setSlotid(rs.getInt("SlotID"));
+                slot.setSlotname(rs.getString("SlotName"));
+                slot.setTime(rs.getString("Time"));
+                x.setSlot(slot);
+                x.setDate(rs.getDate("Date"));
+                return x;
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(ScheduleDBContext.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
 
     public static void main(String[] args) {
         ScheduleDBContext db = new ScheduleDBContext();
-        ArrayList<Schedule> schedules = db.listSchedule(1);
-        for (Schedule schedule : schedules) {
-            System.out.println(schedule);
+        db.getScheduleByID(1);
+            
         }
         
 
-    }
+    
 }

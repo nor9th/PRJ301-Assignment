@@ -4,6 +4,7 @@
     Author     : lyxin
 --%>
 
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <!--
@@ -77,59 +78,24 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                                     <th style="width: 25%">FULLNAME</th>
                                     <th style="width: 30%">ATTENDANCE</th>
                                 </tr>
-                                <tr>
-                                    <th style="width: 5%">1</th>
-                                    <th style="width: 25%"><img src="https://i.ibb.co/jgPgH9t/Male.jpg" alt="Male" height="100px" border="0"/></th>
-                                    <th style="width: 15%">HE151043</th>						
-                                    <th style="width: 25%">Nguyễn Xuân Lý</th>
-                                    <th style="width: 30%">
-                                        <input type="radio" checked="checked" name="attendance" value="attended" /> Attended 
-                                        <input type="radio" name="attendance" value="absent" /> Absent
-                                    </th>
-                                </tr>
-                                <tr>
-                                    <th style="width: 5%">2</th>
-                                    <th style="width: 25%"><img src="https://i.ibb.co/jgPgH9t/Male.jpg" alt="Male" height="100px" border="0"/></th>
-                                    <th style="width: 15%">HE151047</th>						
-                                    <th style="width: 25%">Nguyễn Xuân T</th>
-                                    <th style="width: 30%">
-                                        <input type="radio" checked="checked" name="attendance" value="attended" /> Attended 
-                                        <input type="radio" name="attendance" value="absent" /> Absent
-                                    </th>
-                                </tr>
-                                <tr>
-                                    <th style="width: 5%">3</th>
-                                    <th style="width: 25%"><img src="https://i.ibb.co/jgPgH9t/Male.jpg" alt="Male" height="100px" border="0"/></th>
-                                    <th style="width: 15%">HE151000</th>						
-                                    <th style="width: 25%">Nguyễn Văn A</th>
-                                    <th style="width: 30%">
-                                        <input type="radio" checked="checked" name="attendance" value="attended" /> Attended 
-                                        <input type="radio" name="attendance" value="absent" /> Absent
-                                    </th>
-                                </tr>
-                                <tr>
-                                    <th style="width: 5%">4</th>
-                                    <th style="width: 25%"><img src="https://i.ibb.co/94rff4Z/Famale.jpg" height="100px" alt="Famale" border="0" /></th>
-                                    <th style="width: 15%">HE151001</th>						
-                                    <th style="width: 25%">Nguyễn Thị B</th>
-                                    <th style="width: 30%">
-                                        <input type="radio" checked="checked" name="attendance" value="attended" /> Attended 
-                                        <input type="radio" name="attendance" value="absent" /> Absent
-                                    </th>
-                                </tr>
-                                <tr>
-                                    <th style="width: 5%">5</th>
-                                    <th style="width: 25%"><img src="https://i.ibb.co/jgPgH9t/Male.jpg" alt="Male" height="100px" border="0"/></th>
-                                    <th style="width: 15%">HE151002</th>						
-                                    <th style="width: 25%">Nguyễn Xuân D</th>
-                                    <th style="width: 30%">
-                                        <input type="radio" checked="checked" name="attendance" value="attended" /> Attended 
-                                        <input type="radio" name="attendance" value="absent" /> Absent
-                                    </th>
-                                </tr>
                             </thead>
+                            <tbody>
+                            <c:choose>
+                                <c:when test="${requestScope.listAttendence ne null}">
+                                    <c:forEach items="${requestScope.listAttendence}" var="a" varStatus="loop">
+                                        <tr>
+                                            <td>${loop.count}</td>
+                                            <td><img src="${a.getStudent().getImage()}"></td>
+                                            <td>${a.getStudent().getStudentCode()}</td>
+                                            <td>${a.getStudent().getFullName()}</td>
+                                            <td>
+                                    </c:forEach>
+                                </c:when>
+                            </c:choose>
+                            </tbody>
                         </table>
-                        <input style="margin-left: 91.3%"  type="submit" value="Save" id="submit-btn">
+                        <input type="hidden" value="<%=request.getQueryString()%>" name="param">
+                        <input style="margin-left: 95%"  type="submit" value="Save" id="submit-btn">
                     </form>
                 </div>
             </div>
