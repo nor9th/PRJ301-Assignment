@@ -68,29 +68,67 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
         <div class="container-xl">
             <div class="table-responsive">
                 <div class="table-wrapper">
-                    <form action="" method="POST">
-                        <table class="table table-striped table-hover table-bordered" style="margin: 0 auto; width: 90%">
-                            <thead style="text-align: center">
-                                <tr>
-                                    <th style="width: 5%">NO</th>
-                                    <th style="width: 25%">IMAGE</th>
-                                    <th style="width: 20%">STUDENT CODE</th>						
-                                    <th style="width: 25%">FULLNAME</th>
-                                    <th style="width: 30%">ATTENDANCE</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                            <c:choose>
-                                <c:when test="${requestScope.listAttendence ne null}">
-                                    <c:forEach items="${requestScope.listAttendence}" var="a" varStatus="loop">
-                                        <tr>
-                                            <td>${loop.count}</td>
-                                            <td><img src="${a.getStudent().getImage()}"></td>
-                                            <td>${a.getStudent().getStudentCode()}</td>
-                                            <td>${a.getStudent().getFullName()}</td>
-                                            <td>
+                    <form action="../list/attendence" method="post">
+                        <div class="table-title">
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <h2>Check <b>Attendance</b></h2>
+                                    <h4><c:out value="${requestScope.information}"></c:out></h4>
+                                    </div>
+                                </div>
+                            </div>
+                            <table class="table table-striped table-hover table-bordered">
+                                <thead class="thead-light">
+                                    <tr>
+                                        <th style="width: 5%">NO</th>
+                                        <th style="width: 25%">IMAGE</th>
+                                        <th style="width: 15%">STUDENT CODE</th>						
+                                        <th style="width: 25%">FULLNAME</th>
+                                        <th style="width: 30%">ATTENDANCE</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                <c:choose>
+                                    <c:when test="${requestScope.listAttendence ne null}">
+                                        <c:forEach items="${requestScope.listAttendence}" var="a" varStatus="loop">
+                                            <tr>
+                                                <td>${loop.count}</td>
+                                                <td><img src="${a.getImage()}"></td>
+                                                <td>${a.getStudent().getStudentcode()}</td>
+                                                <td>${a.getStudent().getFullname()}</td>
+                                                <td>
+                                                    <c:choose>
+                                                        <c:when test="${a.getAttendence() eq 'Absent'}">
+                                                            Absent <input style="margin-right: 100px" type="radio" name="${a.getStudent().getStudentCode()}" value="Absent" onchange="setAttend('${a.getStudent().getStudentCode()}');" checked/>
+                                                            Attended <input type="radio" name="${a.getStudent().getStudentCode()}" value="Attended" onchange="setAttend('${a.getStudent().getStudentCode()}');" />
+                                                        </c:when>
+                                                        <c:when test="${a.getAttendence() eq 'Attended'}">
+                                                            Absent <input style="margin-right: 100px" type="radio" name="${a.getStudent().getStudentCode()}" value="Absent" onchange="setAttend('${a.getStudent().getStudentCode()}');""/>
+                                                            Attended <input type="radio" name="${a.getStudent().getStudentCode()}" value="Attended" onchange="setAttend('${a.getStudent().getStudentCode()}');" checked / >
+                                                        </c:when>
+                                                    </c:choose>
+                                                    <input type="hidden" name="attendence" id="${a.getStudent().getStudentCode()}">
+                                                </td>
+                                        <input type="hidden" value="${a.getStudent().getStudentCode()}" name="student">
+                                        </tr>
                                     </c:forEach>
                                 </c:when>
+                                <c:otherwise>
+                                    <c:forEach items="${requestScope.listStudent}" var="s" varStatus="loop">
+                                        <tr>
+                                            <td>${loop.count}</td>
+                                            <td><img src="${s.getImage()}"</td>
+                                            <td>${s.getStudentCode()}</td>
+                                            <td>${s.getFullName()}</td>
+                                            <td>
+                                                Absent <input style="margin-right: 100px" type="radio" name="${s.getStudentCode()}" value="Absent" onchange="setAttend('${s.getStudentCode()}');"/>
+                                                Attended <input type="radio" name="${s.getStudentCode()}" value="Attended" onchange="setAttend('${s.getStudentCode()}');" />
+                                                <input type="hidden" name="attendence" id="${s.getStudentCode()}">
+                                            </td>
+                                        <input type="hidden" value="${s.getStudentCode()}" name="student"> 
+                                        </tr>
+                                    </c:forEach>
+                                </c:otherwise> 
                             </c:choose>
                             </tbody>
                         </table>
@@ -100,5 +138,29 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                 </div>
             </div>
         </div>    
+        <script>
+            function setAttend(index) {
+                var choice = document.querySelector("input[name=" + index + "]:checked").value;
+                var valueIndex = document.getElementById(index);
+                valueIndex.setAttribute("value", choice);
+            }
+            function allRadioFillUp() {
+                document.getElementById('submit-btn').disabled = true;
+                $(":radio").change(function () {
+                    var names = {};
+                    $(':radio').each(function () {
+                        names[$(this).attr('name')] = true;
+                    });
+                    var count = 0;
+                    $.each(names, function () {
+                        count++;
+                    });
+                    if ($(':radio:checked').length === count) {
+                        document.getElementById('submit-btn').disabled = false;
+                    }
+                }).change();
+            }
+            allRadioFillUp();
+        </script>    
     </body>
 </html>

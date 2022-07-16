@@ -59,4 +59,12 @@ public class StudentDBContext extends DBContext {
         }
         return null;
     }
+    
+    public static void main(String[] args) {
+        StudentDBContext db = new StudentDBContext();
+        ArrayList<Student> students = db.getStudentsFromClass(1);
+        for (Student student : students) {
+            System.out.println(student);
+        }
+    }
 }

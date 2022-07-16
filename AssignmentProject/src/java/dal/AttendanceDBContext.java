@@ -18,7 +18,8 @@ import model.Student;
  *
  * @author lyxin
  */
-public class AttendanceDBContext extends DBContext{
+public class AttendanceDBContext extends DBContext {
+
     public void insertAttendance(Attendance x) {
         String sql = "insert into Attendence (ScheduleID, [StudentCode], Attendence) values (?, ?, ?)";
         try {
@@ -36,7 +37,7 @@ public class AttendanceDBContext extends DBContext{
         String sql = "update Attendence\n"
                 + "set Attendence = ?\n"
                 + "where [StudentCode] = ? and ScheduleID = ?";
-        try{
+        try {
             PreparedStatement statement = connection.prepareStatement(sql);
             statement.setString(1, x.getAttendence());
             statement.setString(2, x.getStudent().getStudentcode());
@@ -50,7 +51,8 @@ public class AttendanceDBContext extends DBContext{
     public ArrayList<Attendance> getAttendanceByScheduleID(int scheduleID) {
         ArrayList<Attendance> listAttendence = new ArrayList<>();
         String sql = "select a.*, st.FullName, st.Image\n"
-                + "from Attendence a join Student st on a.[StudentCode] = st.StudentCode\n"
+                + "from Attendance a join Student st \n"
+                + "on a.[StudentCode] = st.StudentCode\n"
                 + "where a.ScheduleID  = ?";
         try {
             PreparedStatement statement = connection.prepareStatement(sql);
@@ -59,20 +61,30 @@ public class AttendanceDBContext extends DBContext{
             while (rs.next()) {
                 Attendance x = new Attendance();
                 x.setAttendanceid(rs.getInt("ID"));
+                
                 Schedule schedule = new Schedule();
                 schedule.setScheduleid(rs.getInt("ScheduleID"));
                 x.setSchedule(schedule);
+                
                 Student student = new Student();
                 student.setStudentcode(rs.getString("StudentCode"));
                 student.setFullname(rs.getString("FullName"));
                 student.setImage(rs.getString("Image"));
                 x.setStudent(student);
-                x.setAttendence(rs.getString("Attendence"));
+                x.setAttendence(rs.getString("Attendance"));
                 listAttendence.add(x);
             }
         } catch (SQLException ex) {
             Logger.getLogger(AttendanceDBContext.class.getName()).log(Level.SEVERE, null, ex);
         }
         return listAttendence;
+    }
+
+    public static void main(String[] args) {
+        AttendanceDBContext db = new AttendanceDBContext();
+        ArrayList<Attendance> attend = db.getAttendanceByScheduleID(7);
+        for (Attendance attendance : attend) {
+            System.out.println(attendance);
+        }
     }
 }

@@ -15,6 +15,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import java.util.ArrayList;
 import model.Attendance;
 import model.Schedule;
@@ -50,9 +51,21 @@ public class AttendanceController extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
-    throws ServletException, IOException {
+    protected void doGet_Check(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        
+        String scheduleID = request.getParameter("schedule");
+        ScheduleDBContext scheduleDb = new ScheduleDBContext();
+        Schedule schedule = scheduleDb.getScheduleByID(Integer.parseInt(scheduleID));
+        String information = schedule.getClassname().getClassname()+ " - " + schedule.getSlot().getSlotname()+ " - " + schedule.getSubject().getSubjectname()+ " - " + schedule.getDate();
+        request.setAttribute("information", information);
+        StudentDBContext studentDb = new StudentDBContext();
+        ArrayList<Student> listStudent = studentDb.getStudentsFromClass(schedule.getClassname().getClassid());
+        request.setAttribute("listStudent", listStudent);
+        request.getRequestDispatcher("Attendance.jsp").forward(request, response);
+    }
+
+    protected void doGet_Edit(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        
         String schedule = request.getParameter("schedule");
         int scheduleID = Integer.parseInt(schedule);
         ScheduleDBContext scheduleDb = new ScheduleDBContext();
@@ -66,18 +79,98 @@ public class AttendanceController extends HttpServlet {
         request.setAttribute("listAttendence", listAttendence);
         request.setAttribute("listStudent", listStudent);
         request.getRequestDispatcher("Attendance.jsp").forward(request, response);
-    } 
+    }
 
-    /** 
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        if (request.getParameter("status").equals("check")) {
+            doGet_Check(request, response);
+            return;
+        }
+        if (request.getParameter("status").equals("edit")) {
+            doGet_Edit(request, response);
+            return;
+        }
+    }
+
+    /**
      * Handles the HTTP <code>POST</code> method.
+     *
      * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
+    protected void doPost_Insert(HttpServletRequest request, HttpServletResponse response, String scheduleID)
+            throws ServletException, IOException {
+        
+        String[] studentCode = request.getParameterValues("student");
+        Schedule schedule = new Schedule();
+        schedule.setScheduleid(Integer.parseInt(scheduleID));
+        String[] attendance = request.getParameterValues("attendence");
+        Student[] students = new Student[studentCode.length];
+        for (int i = 0; i < students.length; i++) {
+            students[i] = new Student();
+            students[i].setStudentcode(studentCode[i]);
+        }
+        AttendanceDBContext aDb = new AttendanceDBContext();
+        Attendance[] attendences = new Attendance[attendance.length];
+        for (int i = 0; i < attendences.length; i++) {
+            attendences[i] = new Attendance();
+            attendences[i].setSchedule(schedule);
+            attendences[i].setStudent(students[i]);
+            attendences[i].setAttendence(attendance[i]);
+            aDb.insertAttendance(attendences[i]);
+        }
+        HttpSession session = request.getSession(false);
+        session.setAttribute("notification", "Check successful");
+        response.sendRedirect(request.getContextPath());
+    }
+
+    protected void doPost_Update(HttpServletRequest request, HttpServletResponse response, String scheduleID)
+            throws ServletException, IOException {
+        
+        String[] studentCode = request.getParameterValues("student");
+        Schedule schedule = new Schedule();
+        schedule.setScheduleid(Integer.parseInt(scheduleID));
+        String[] attendence = request.getParameterValues("attendence");
+        Student[] students = new Student[studentCode.length];
+        for (int i = 0; i < students.length; i++) {
+            students[i] = new Student();
+            students[i].setStudentcode(studentCode[i]);
+        }
+        AttendanceDBContext aDb = new AttendanceDBContext();
+        Attendance[] attendences = new Attendance[attendence.length];
+        for (int i = 0; i < attendences.length; i++) {
+            attendences[i] = new Attendance();
+            attendences[i].setSchedule(schedule);
+            attendences[i].setStudent(students[i]);
+            attendences[i].setAttendence(attendence[i]);
+            aDb.updateAttendance(attendences[i]);
+        }
+        HttpSession session = request.getSession(false);
+        session.setAttribute("notification", "Update successful");
+        response.sendRedirect(request.getContextPath());
+    }
+
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
-    throws ServletException, IOException {
+            throws ServletException, IOException {
+        
+        String param = request.getParameter("param");
+        String[] splitParam = param.split("&");
+        String scheduleID = splitParam[0].substring(splitParam[0].indexOf("=") + 1);
+        String status = splitParam[1].substring(splitParam[1].indexOf("=") + 1);
+        if (status.equals("check")) {
+            doPost_Insert(request, response, scheduleID);
+            return;
+        }
+        if (status.equals("edit")) {
+            doPost_Update(request, response, scheduleID);
+            return;
+        }
+
     }
 
     /** 
