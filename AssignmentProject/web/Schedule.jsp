@@ -87,27 +87,24 @@
                             <tr>
                                 <th rowspan="2">
                                     <span class="auto-style1"><strong>Year</strong></span>
-                                    <select name="">
+                                    <select name="year">
                                         <option value="2019">2019</option>
                                         <option value="2020">2020</option>
                                         <option value="2021">2021</option>
                                         <option selected="selected" value="2022">2022</option>
                                         <option value="2023">2023</option>
-
                                     </select>
                                     <br>
                                     Week
                                     <select name="date">
-                                        <c:forEach items="${requestScope.sches}" var="sche">
-                                            <c:if test="${requestScope.d_date eq sche.date}">
-                                                <option selected="selected" 
-                                                </c:if>
-                                                value="${sche.date}">${sche.date}</option>
-                                        </c:forEach>
+                                        <option value="8/06 - 16/06">2019</option>
+                                        <option selected="selected" value="10/06 - 18/06">10/06 - 18/06</option>
+                                        <option value="20/06 - 29/06">2020</option>
                                     </select>
                                 </th>
                         </thead>
                         <tbody>
+
                             <c:if test="${requestScope.schedules ne null}">
                             <table class="table table-striped table-hover" style="margin: 0 auto; width: 80%">
                                 <thead>
@@ -144,6 +141,8 @@
                         </c:if>
                         </tbody>
                     </table>
+                    <p style="margin-left: 10%" class="text-success"><c:out value="${sessionScope.notification}"></c:out></p>
+                    <c:remove scope="session" var="notification"></c:remove>
                 </div>
             </div>
         </div>     
