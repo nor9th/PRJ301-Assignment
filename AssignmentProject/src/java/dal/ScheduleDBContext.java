@@ -139,7 +139,10 @@ public class ScheduleDBContext extends DBContext {
 
     public static void main(String[] args) {
         ScheduleDBContext db = new ScheduleDBContext();
-        db.getScheduleByID(1);
+        System.out.println(db.getScheduleByID(7)); 
+        
+            
+      
             
         }
         

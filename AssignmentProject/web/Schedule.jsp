@@ -68,7 +68,7 @@
                     <div>
                         <div style="margin-bottom: 10px ;text-align: center">
                             <form action="schedule" method="POST">
-                                Lecture<select name="instructorID"> 
+                                Lecture <select name="instructorID"> 
                                     <c:forEach items="${requestScope.ins}" var="ins">
                                         <option 
                                             <c:if test="${ins.instructorID eq requestScope.instructorID}">
@@ -120,7 +120,7 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <%--<jsp:useBean id="attendenceDB" class="context.AttendanceDBContext" scope="request"></jsp:useBean>--%>
+                                    <jsp:useBean id="attendenceDB" class="dal.AttendanceDBContext" scope="request"></jsp:useBean>
                                     <c:forEach items="${requestScope.schedules}" var="s" varStatus="loop">
                                         <tr>
                                             <td>${loop.count}</td>
@@ -128,15 +128,14 @@
                                             <td>${s.getClassname().getClassname()}</td>
                                             <td>${s.getSlot().getSlotname()}</td>
                                             <td>
-                                                <a href="Attendance.jsp">Take Atteandance</a>
-                                                <%--<c:choose>
+                                                <c:choose>
                                                     <c:when test="${attendenceDB.getAttendanceByScheduleID(s.getScheduleid()).size() eq 0 }">
-                                                        <a href="list/attendence?schedule=${s.getScheduleid()}&status=check">Check Attendence</a>
+                                                        <a href="attendance?schedule=${s.getScheduleid()}&status=check">Check Attendence</a>
                                                     </c:when>
                                                     <c:otherwise>
-                                                        <a href="list/attendence?schedule=${s.getScheduleid()}&status=edit">Edit Attendence</a>
+                                                        <a href="attendance?schedule=${s.getScheduleid()}&status=edit">Edit Attendence</a>
                                                     </c:otherwise>
-                                                </c:choose>--%>
+                                                </c:choose>
                                             </td>
                                         </tr>
                                     </c:forEach>

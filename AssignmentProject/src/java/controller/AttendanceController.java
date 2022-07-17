@@ -2,8 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-
-package controller.attendance;
+package controller;
 
 import dal.AttendanceDBContext;
 import dal.ScheduleDBContext;
@@ -25,38 +24,42 @@ import model.Student;
  *
  * @author lyxin
  */
-@WebServlet(name="AttendanceController", urlPatterns={"/attendance"})
+@WebServlet(name = "AttendanceController", urlPatterns = {"/attendance"})
 public class AttendanceController extends HttpServlet {
-   
-    /** 
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
+
+    /**
+     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
+     * methods.
+     *
      * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-    throws ServletException, IOException {
+            throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            
+        try ( PrintWriter out = response.getWriter()) {
+            /* TODO output your page here. You may use following sample code. */
+
         }
-    } 
+    }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
-    /** 
+    /**
      * Handles the HTTP <code>GET</code> method.
+     *
      * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
     protected void doGet_Check(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        
+
         String scheduleID = request.getParameter("schedule");
         ScheduleDBContext scheduleDb = new ScheduleDBContext();
         Schedule schedule = scheduleDb.getScheduleByID(Integer.parseInt(scheduleID));
-        String information = schedule.getClassname().getClassname()+ " - " + schedule.getSlot().getSlotname()+ " - " + schedule.getSubject().getSubjectname()+ " - " + schedule.getDate();
+        String information = schedule.getClassname().getClassname() + " - " + schedule.getSlot().getSlotname() + " - " + schedule.getSubject().getSubjectname() + " - " + schedule.getDate();
         request.setAttribute("information", information);
         StudentDBContext studentDb = new StudentDBContext();
         ArrayList<Student> listStudent = studentDb.getStudentsFromClass(schedule.getClassname().getClassid());
@@ -65,12 +68,12 @@ public class AttendanceController extends HttpServlet {
     }
 
     protected void doGet_Edit(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        
+
         String schedule = request.getParameter("schedule");
         int scheduleID = Integer.parseInt(schedule);
         ScheduleDBContext scheduleDb = new ScheduleDBContext();
         Schedule scheduleGetFromDb = scheduleDb.getScheduleByID(scheduleID);
-        String information = scheduleGetFromDb.getClassname().getClassname()+ " - " + scheduleGetFromDb.getSlot().getSlotname()+ " - " + scheduleGetFromDb.getSubject().getSubjectname()+ " - " + scheduleGetFromDb.getDate();
+        String information = scheduleGetFromDb.getClassname().getClassname() + " - " + scheduleGetFromDb.getSlot().getSlotname() + " - " + scheduleGetFromDb.getSubject().getSubjectname() + " - " + scheduleGetFromDb.getDate();
         request.setAttribute("information", information);
         StudentDBContext studentDb = new StudentDBContext();
         ArrayList<Student> listStudent = studentDb.getStudentsFromClass(scheduleGetFromDb.getClassname().getClassid());
@@ -104,7 +107,7 @@ public class AttendanceController extends HttpServlet {
      */
     protected void doPost_Insert(HttpServletRequest request, HttpServletResponse response, String scheduleID)
             throws ServletException, IOException {
-        
+
         String[] studentCode = request.getParameterValues("student");
         Schedule schedule = new Schedule();
         schedule.setScheduleid(Integer.parseInt(scheduleID));
@@ -130,7 +133,7 @@ public class AttendanceController extends HttpServlet {
 
     protected void doPost_Update(HttpServletRequest request, HttpServletResponse response, String scheduleID)
             throws ServletException, IOException {
-        
+
         String[] studentCode = request.getParameterValues("student");
         Schedule schedule = new Schedule();
         schedule.setScheduleid(Integer.parseInt(scheduleID));
@@ -157,7 +160,7 @@ public class AttendanceController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
+
         String param = request.getParameter("param");
         String[] splitParam = param.split("&");
         String scheduleID = splitParam[0].substring(splitParam[0].indexOf("=") + 1);
@@ -173,8 +176,9 @@ public class AttendanceController extends HttpServlet {
 
     }
 
-    /** 
+    /**
      * Returns a short description of the servlet.
+     *
      * @return a String containing servlet description
      */
     @Override
