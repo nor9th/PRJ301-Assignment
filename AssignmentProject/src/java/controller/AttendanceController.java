@@ -108,53 +108,54 @@ public class AttendanceController extends HttpServlet {
     protected void doPost_Insert(HttpServletRequest request, HttpServletResponse response, String scheduleID)
             throws ServletException, IOException {
 
-        String[] studentCode = request.getParameterValues("student");
-        Schedule schedule = new Schedule();
-        schedule.setScheduleid(Integer.parseInt(scheduleID));
-        String[] attendance = request.getParameterValues("attendence");
-        Student[] students = new Student[studentCode.length];
-        for (int i = 0; i < students.length; i++) {
-            students[i] = new Student();
-            students[i].setStudentcode(studentCode[i]);
-        }
-        AttendanceDBContext aDb = new AttendanceDBContext();
-        Attendance[] attendences = new Attendance[attendance.length];
-        for (int i = 0; i < attendences.length; i++) {
-            attendences[i] = new Attendance();
-            attendences[i].setSchedule(schedule);
-            attendences[i].setStudent(students[i]);
-            attendences[i].setAttendence(attendance[i]);
-            aDb.insertAttendance(attendences[i]);
-        }
-        HttpSession session = request.getSession(false);
-        session.setAttribute("notification", "Check successful");
-        response.sendRedirect(request.getContextPath());
+//        String[] studentCode = request.getParameterValues("student");
+//        Schedule schedule = new Schedule();
+//        schedule.setScheduleid(Integer.parseInt(scheduleID));
+//        String[] attendance = request.getParameterValues("attendence");
+//        Student[] students = new Student[studentCode.length];
+//        for (int i = 0; i < students.length; i++) {
+//            students[i] = new Student();
+//            students[i].setStudentcode(studentCode[i]);
+//        }
+//        AttendanceDBContext aDb = new AttendanceDBContext();
+//        Attendance[] attendences = new Attendance[attendance.length];
+//        for (int i = 0; i < attendences.length; i++) {
+//            attendences[i] = new Attendance();
+//            attendences[i].setSchedule(schedule);
+//            attendences[i].setStudent(students[i]);
+//            attendences[i].setAttendence(attendance[i]);
+//            aDb.insertAttendance(attendences[i]);
+//        }
+//        HttpSession session = request.getSession(false);
+//        session.setAttribute("notification", "Check successful");
+        request.getRequestDispatcher("Attendance.jsp").forward(request, response);
+
     }
 
     protected void doPost_Update(HttpServletRequest request, HttpServletResponse response, String scheduleID)
             throws ServletException, IOException {
 
-        String[] studentCode = request.getParameterValues("student");
-        Schedule schedule = new Schedule();
-        schedule.setScheduleid(Integer.parseInt(scheduleID));
-        String[] attendence = request.getParameterValues("attendence");
-        Student[] students = new Student[studentCode.length];
-        for (int i = 0; i < students.length; i++) {
-            students[i] = new Student();
-            students[i].setStudentcode(studentCode[i]);
-        }
-        AttendanceDBContext aDb = new AttendanceDBContext();
-        Attendance[] attendences = new Attendance[attendence.length];
-        for (int i = 0; i < attendences.length; i++) {
-            attendences[i] = new Attendance();
-            attendences[i].setSchedule(schedule);
-            attendences[i].setStudent(students[i]);
-            attendences[i].setAttendence(attendence[i]);
-            aDb.updateAttendance(attendences[i]);
-        }
-        HttpSession session = request.getSession(false);
-        session.setAttribute("notification", "Update successful");
-        response.sendRedirect(request.getContextPath());
+//        String[] studentCode = request.getParameterValues("student");
+//        Schedule schedule = new Schedule();
+//        schedule.setScheduleid(Integer.parseInt(scheduleID));
+//        String[] attendence = request.getParameterValues("attendence");
+//        Student[] students = new Student[studentCode.length];
+//        for (int i = 0; i < students.length; i++) {
+//            students[i] = new Student();
+//            students[i].setStudentcode(studentCode[i]);
+//        }
+//        AttendanceDBContext aDb = new AttendanceDBContext();
+//        Attendance[] attendences = new Attendance[attendence.length];
+//        for (int i = 0; i < attendences.length; i++) {
+//            attendences[i] = new Attendance();
+//            attendences[i].setSchedule(schedule);
+//            attendences[i].setStudent(students[i]);
+//            attendences[i].setAttendence(attendence[i]);
+//            aDb.updateAttendance(attendences[i]);
+//        }
+//        HttpSession session = request.getSession(false);
+//        session.setAttribute("notification", "Update successful");
+        request.getRequestDispatcher("Attendance.jsp").forward(request, response);
     }
 
     @Override

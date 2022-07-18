@@ -112,7 +112,7 @@
                                         <th>NO</th>
                                         <th>SUBJECT NAME</th>						
                                         <th>CLASS</th>
-                                        <th>SLOT</th>
+                                        <th style="text-align: center">SLOT</th>
                                         <th>OPTION</th>
                                     </tr>
                                 </thead>
@@ -121,9 +121,11 @@
                                     <c:forEach items="${requestScope.schedules}" var="s" varStatus="loop">
                                         <tr>
                                             <td>${loop.count}</td>
-                                            <td>${s.getSubject().getSubjectname()}</td>
-                                            <td>${s.getClassname().getClassname()}</td>
-                                            <td>${s.getSlot().getSlotname()}</td>
+                                            <td>${s.subject.subjectname}</td>
+                                            <td>${s.classname.classname}</td>
+                                            <td style="text-align: center">${s.slot.slotname}<br/>
+                                                (${s.slot.time})
+                                            </td>
                                             <td>
                                                 <c:choose>
                                                     <c:when test="${attendenceDB.getAttendanceByScheduleID(s.getScheduleid()).size() eq 0 }">
